@@ -16,6 +16,7 @@ type IComparable[T any] interface {
 	HaveMember(memberName string) fluent.IAdditional[T, IComparable[T]]
 	HaveField(fieldName string) IAdditionalWith[T]
 	HaveFieldWithTag(fieldName string, tagName string) fluent.IAdditional[T, IComparable[T]]
+	HaveFieldWithTagPattern(fieldName string, tagPattern string) fluent.IAdditional[T, IComparable[T]]
 	HaveAllFieldsWithTag(tagName string) fluent.IAdditional[T, IComparable[T]]
 	HaveMethod(methodName string) fluent.IAdditional[T, IComparable[T]]
 	HaveAnyOfMembers(membersNames []string) fluent.IAdditional[T, IComparable[T]]

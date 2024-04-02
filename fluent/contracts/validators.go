@@ -2,6 +2,7 @@ package contracts
 
 import (
 	"reflect"
+	"regexp"
 	"testing"
 
 	f "github.com/sciensoft/fluenttests/fluent"
@@ -56,7 +57,7 @@ func haveMembers[T any](t *testing.T, invert f.AdditiveInverse, matchType f.Matc
 	}
 }
 
-func haveFieldWithTag[T any](t *testing.T, invert f.AdditiveInverse, value T, comparableFieldName string, comparableTagName string, messagesf ...string) {
+func haveFieldWithTag[T any](t *testing.T, value T, comparableFieldName string, comparableTagName string, messagesf ...string) {
 	vtype := reflect.TypeOf(value)
 	if vtype.Kind() == reflect.Ptr {
 		vtype = vtype.Elem()
@@ -68,13 +69,18 @@ func haveFieldWithTag[T any](t *testing.T, invert f.AdditiveInverse, value T, co
 		_, hasTag := field.Tag.Lookup(comparableTagName)
 
 		if !hasTag {
+			regex, _ := regexp.Compile(comparableTagName)
+			hasTag = regex.Match([]byte(field.Tag))
+		}
+
+		if !hasTag {
 			message := f.GetMessage("Object of %q does not have a member %q with tag %q.", messagesf...)
 			t.Errorf(message, vtype, comparableFieldName, comparableTagName)
 		}
 	}
 }
 
-func haveAllFieldsWithTag[T any](t *testing.T, invert f.AdditiveInverse, value T, comparableTagName string, messagesf ...string) {
+func haveAllFieldsWithTag[T any](t *testing.T, value T, comparableTagName string, messagesf ...string) {
 	vtype := reflect.TypeOf(value)
 	if vtype.Kind() == reflect.Ptr {
 		vtype = vtype.Elem()

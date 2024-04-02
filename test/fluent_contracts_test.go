@@ -96,7 +96,8 @@ func TestFluentContractsShouldHaveFieldWithTag(t *testing.T) {
 
 	// Assert
 	fluent.It(obj).
-		Should().HaveFieldWithTag("Value", "json")
+		Should().HaveFieldWithTag("Value", "json").
+		And().HaveFieldWithTagPattern("Value", `json:"value"`)
 }
 
 func TestFluentContractsShouldHaveAllFieldsWithTag(t *testing.T) {

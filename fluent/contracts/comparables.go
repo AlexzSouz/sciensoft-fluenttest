@@ -37,14 +37,21 @@ func (c *Comparable[T]) HaveField(fieldName string) IAdditionalWith[T] {
 // HaveFieldWithTag asserts a Mock objects as having a field named as per "fieldName string" argument
 // and with tag name as per "tagName string" argument.
 func (c *Comparable[T]) HaveFieldWithTag(fieldName string, tagName string) f.IAdditional[T, IComparable[T]] {
-	haveFieldWithTag(c.testingT, f.NegativeDefault, c.value, fieldName, tagName, "....")
+	haveFieldWithTag(c.testingT, c.value, fieldName, tagName, "....")
+	return c.createAdditional()
+}
+
+// HaveFieldWithTagPattern asserts a Mock objects as having a field named as per "fieldName string" argument
+// and with tag patterns as per "tagPattern string" argument.
+func (c *Comparable[T]) HaveFieldWithTagPattern(fieldName string, tagPattern string) f.IAdditional[T, IComparable[T]] {
+	haveFieldWithTag(c.testingT, c.value, fieldName, tagPattern, "....")
 	return c.createAdditional()
 }
 
 // HaveAllFieldsWithTag asserts a Mock objects as having a all its fields
 // with the tag name as per "tagName string" argument.
 func (c *Comparable[T]) HaveAllFieldsWithTag(tagName string) f.IAdditional[T, IComparable[T]] {
-	haveAllFieldsWithTag(c.testingT, f.NegativeDefault, c.value, tagName, "....")
+	haveAllFieldsWithTag(c.testingT, c.value, tagName, "....")
 	return c.createAdditional()
 }
 
