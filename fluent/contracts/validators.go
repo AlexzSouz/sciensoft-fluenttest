@@ -8,6 +8,20 @@ import (
 	f "github.com/sciensoft/fluenttests/fluent"
 )
 
+func beNil[T any](t *testing.T, invert f.AdditiveInverse, value T, messagesf ...string) {
+	var vi interface{} = value
+	isNil := vi == nil
+
+	if invert {
+		isNil = !isNil
+	}
+
+	if !isNil {
+		message := f.GetMessage("Expected value to be 'nil' but got %q.", messagesf...)
+		t.Errorf(message, value)
+	}
+}
+
 func ofType[T any](t *testing.T, invert f.AdditiveInverse, value T, comparable reflect.Type, messagesf ...string) {
 	vtype := reflect.TypeOf(value)
 	isOfType := vtype == comparable

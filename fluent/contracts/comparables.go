@@ -6,6 +6,18 @@ import (
 	f "github.com/sciensoft/fluenttests/fluent"
 )
 
+// BeNil asserts a Mock objects as being "nil".
+func (c *Comparable[T]) BeNil() f.IAdditional[T, IComparable[T]] {
+	beNil(c.testingT, f.NegativeDefault, c.value)
+	return c.createAdditional()
+}
+
+// BeNil asserts a Mock objects as being "nil".
+func (c *Comparable[T]) BeNotNil() f.IAdditional[T, IComparable[T]] {
+	beNil(c.testingT, f.NegativeInvert, c.value, "Expected value to be NOT 'nil', but got %q.")
+	return c.createAdditional()
+}
+
 // BeOfType asserts a Mock objects as being of the provided type "typeName reflect.Type" argument.
 func (c *Comparable[T]) BeOfType(typeName reflect.Type) f.IAdditional[T, IComparable[T]] {
 	ofType(c.testingT, f.NegativeDefault, c.value, typeName)

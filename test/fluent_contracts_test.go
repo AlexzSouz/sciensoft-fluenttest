@@ -7,6 +7,34 @@ import (
 	"github.com/sciensoft/fluenttests/fluent/contracts"
 )
 
+func TestFluentContractsShouldBeNil(t *testing.T) {
+	// Arrange
+	fluent := contracts.Fluent[any](t)
+	var obj any = nil
+
+	// Act
+	// ... Noop
+
+	// Assert
+	fluent.It(obj).Should().BeNil()
+}
+
+func TestFluentContractsShouldBeNotNil(t *testing.T) {
+	// Arrange
+	fluent := contracts.Fluent[any](t)
+	var obj any = struct {
+		A int
+	}{
+		A: 1,
+	}
+
+	// Act
+	// ... Noop
+
+	// Assert
+	fluent.It(obj).Should().BeNotNil()
+}
+
 func TestFluentContractsShouldBeOfType(t *testing.T) {
 	// Arrange
 	fluent := contracts.Fluent[any](t)

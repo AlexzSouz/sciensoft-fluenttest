@@ -11,6 +11,8 @@ import (
 // the Fluent-Interface design pattern to provide chained testing methods.
 type IComparable[T any] interface {
 	fluent.IComparable[T]
+	BeNil() fluent.IAdditional[T, IComparable[T]]
+	BeNotNil() fluent.IAdditional[T, IComparable[T]]
 	BeOfType(typeName reflect.Type) fluent.IAdditional[T, IComparable[T]]
 	NotBeOfType(typeName reflect.Type) fluent.IAdditional[T, IComparable[T]]
 	HaveMember(memberName string) fluent.IAdditional[T, IComparable[T]]
