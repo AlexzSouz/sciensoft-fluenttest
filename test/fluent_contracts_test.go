@@ -7,16 +7,23 @@ import (
 	"github.com/sciensoft/fluenttests/fluent/contracts"
 )
 
+type Cat struct{}
+
+func (c Cat) MakeSound() string {
+	return "Meow"
+}
+
 func TestFluentContractsShouldBeNil(t *testing.T) {
 	// Arrange
 	fluent := contracts.Fluent[any](t)
-	var obj any = nil
+	var cat Cat
+	// var animal interface{} = cat
 
 	// Act
 	// ... Noop
 
 	// Assert
-	fluent.It(obj).Should().BeNil()
+	fluent.It(cat).Should().BeNilOrZero()
 }
 
 func TestFluentContractsShouldBeNotNil(t *testing.T) {
@@ -32,7 +39,7 @@ func TestFluentContractsShouldBeNotNil(t *testing.T) {
 	// ... Noop
 
 	// Assert
-	fluent.It(obj).Should().BeNotNil()
+	fluent.It(obj).Should().NotBeNilOrZero()
 }
 
 func TestFluentContractsShouldBeOfType(t *testing.T) {

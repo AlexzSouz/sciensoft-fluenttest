@@ -8,16 +8,31 @@ import (
 	f "github.com/sciensoft/fluenttests/fluent"
 )
 
-func beNil[T any](t *testing.T, invert f.AdditiveInverse, value T, messagesf ...string) {
-	var vi interface{} = value
-	isNil := vi == nil
+func beNilOrZero[T any](t *testing.T, invert f.AdditiveInverse, value T, messagesf ...string) {
+	var valueI interface{} = value
+	isNilOrZero := valueI == nil
 
-	if invert {
-		isNil = !isNil
+	if !isNilOrZero {
+		kind := reflect.TypeOf(valueI).Kind()
+		switch kind {
+		case reflect.Ptr:
+		case reflect.Map:
+		case reflect.Array:
+		case reflect.Chan:
+		case reflect.Slice:
+			isNilOrZero = reflect.ValueOf(valueI).IsNil()
+		default:
+			valueOf := reflect.ValueOf(valueI)
+			isNilOrZero = valueOf.IsZero()
+		}
 	}
 
-	if !isNil {
-		message := f.GetMessage("Expected value to be 'nil' but got %q.", messagesf...)
+	if invert {
+		isNilOrZero = !isNilOrZero
+	}
+
+	if !isNilOrZero {
+		message := f.GetMessage("Expected value to be 'nil' or 'zero', but got %q.", messagesf...)
 		t.Errorf(message, value)
 	}
 }

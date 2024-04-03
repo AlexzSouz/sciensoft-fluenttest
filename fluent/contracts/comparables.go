@@ -7,14 +7,14 @@ import (
 )
 
 // BeNil asserts a Mock objects as being "nil".
-func (c *Comparable[T]) BeNil() f.IAdditional[T, IComparable[T]] {
-	beNil(c.testingT, f.NegativeDefault, c.value)
+func (c *Comparable[T]) BeNilOrZero() f.IAdditional[T, IComparable[T]] {
+	beNilOrZero(c.testingT, f.NegativeDefault, c.value)
 	return c.createAdditional()
 }
 
 // BeNil asserts a Mock objects as being "nil".
-func (c *Comparable[T]) BeNotNil() f.IAdditional[T, IComparable[T]] {
-	beNil(c.testingT, f.NegativeInvert, c.value, "Expected value to be NOT 'nil', but got %q.")
+func (c *Comparable[T]) NotBeNilOrZero() f.IAdditional[T, IComparable[T]] {
+	beNilOrZero(c.testingT, f.NegativeInvert, c.value, "Expected value to be NOT 'nil' or 'zero', but got %q.")
 	return c.createAdditional()
 }
 
